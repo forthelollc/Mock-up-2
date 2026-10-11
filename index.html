@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xensored — By For The Lo LLC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;1,500&display=swap');
+:root{--bg:#0d0707;--panel:#170b0b;--line:#392020;--gold:#c9a04b;--red:#c8102e;--text:#f1e6dc;--muted:#a18c82}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:14px "DM Sans",sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+header{position:sticky;top:0;background:#100808f2;border-bottom:1px solid var(--line);z-index:5}
+.nav{display:flex;align-items:center;gap:26px;min-height:68px}
+.logo{font:italic 28px "Playfair Display",serif}
+.logo span{color:var(--red)}
+nav{display:flex;gap:22px;flex-wrap:wrap}
+nav a{font-size:11px;letter-spacing:1.5px;color:#b9a69b;text-transform:uppercase}
+.right{margin-left:auto;display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:transparent;color:var(--text);padding:11px 15px}
+.gold{border-color:var(--gold);color:var(--gold)}
+.red{background:var(--red);border-color:var(--red);color:white}
+.hero{min-height:570px;display:flex;align-items:end;padding:65px 0;background:radial-gradient(ellipse at 60% 25%,#501516,#200909 35%,#0d0707 72%);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero:after{content:"";position:absolute;top:17%;left:48%;width:250px;height:260px;border:7px ridge #80602c;background:radial-gradient(ellipse,#552016,#100707 70%);box-shadow:0 0 90px #000}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.hero h1{font:clamp(48px,7vw,82px)/1.05 "Playfair Display",serif;margin:14px 0}
+.hero h1 em{color:var(--red)}
+.hero p{color:#c1aea3;max-width:520px;line-height:1.8}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.section{padding:48px 0}
+.heading{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:22px}
+.heading h2{font:36px "Playfair Display",serif;margin:6px 0}
+.muted{color:var(--muted)}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
+.filter{background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 12px;text-transform:uppercase;font-size:10px;letter-spacing:1px}
+.filter.active{background:var(--gold);color:#180e08}
+.search,.field{background:#100808;border:1px solid var(--line);color:var(--text);padding:12px;width:100%;max-width:300px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.card{background:var(--panel);border:1px solid var(--line)}
+.art{height:225px;position:relative;display:flex;align-items:end;justify-content:flex-end;padding:12px;font-size:10px;letter-spacing:1px;color:#c6b58a;background:radial-gradient(ellipse at 45% 30%,#571819,#210b0b 60%,#100707)}
+.art.v2{background:radial-gradient(ellipse at 50% 40%,#6a301b,#170807 65%)}
+.art.v3{background:radial-gradient(ellipse at 30% 40%,#434017,#100d08 70%)}
+.art.v4{background:radial-gradient(ellipse at 60% 40%,#682414,#160807 65%)}
+.live{position:absolute;top:10px;left:10px;background:#96380c;color:white;padding:5px 8px}
+.details{padding:13px}
+.details h3{font:21px "Playfair Display",serif;margin:0 0 5px}
+.details p{font-size:12px;color:var(--muted);margin:0 0 14px}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.price{color:var(--gold)}
+.foot button{border:1px solid var(--line);background:transparent;color:var(--text);padding:7px;font-size:11px}
+.foot .buy{background:var(--red);border-color:var(--red)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{padding:24px;border:1px solid var(--line);background:linear-gradient(145deg,#210b0b,#100808)}
+.panel h3{font:27px "Playfair Display",serif;margin:8px 0}
+.panel p{color:var(--muted);line-height:1.7}
+.room{text-align:center;border:1px solid var(--line);padding:24px;background:radial-gradient(ellipse at 50% 20%,#390b10,#120707 70%)}
+.room h2{font:42px "Playfair Display",serif}
+.seats{display:grid;grid-template-columns:repeat(12,1fr);gap:7px;max-width:760px;margin:25px auto}
+.seat{height:38px;border:1px solid #432727;border-radius:20px 20px 2px 2px;background:#211212;color:#b99b88}
+.seat.taken{background:#851329;color:white}
+.seat.sel{outline:2px solid var(--gold)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.stat{padding:17px;border:1px solid var(--line)}
+.stat small{color:var(--muted)}
+.stat strong{display:block;font:26px "Playfair Display",serif;margin-top:8px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.tab{background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 12px}
+.tab.active{color:var(--gold);border-color:var(--gold)}
+.hidden{display:none!important}
+.chat{padding:12px;border:1px solid var(--line);min-height:90px;margin:12px 0}
+.msg{padding:8px 0;border-bottom:1px solid var(--line)}
+.msg b{color:var(--gold)}
+footer{padding:32px 0 90px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+.player{position:fixed;bottom:0;left:0;right:0;background:#190909f5;border-top:1px solid var(--line);padding:9px 0;z-index:4}
+.player .wrap{display:flex;align-items:center;gap:12px}
+.player select{margin-left:auto;background:#100808;color:var(--text);border:1px solid var(--line);padding:7px}
+.modalbg,.agegate{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}
+.modalbg{display:none}
+.modalbg.open{display:flex}
+.modal,.agebox{width:min(500px,100%);padding:27px;background:#170909;border:1px solid var(--gold)}
+.modal h2,.agebox h2{font:38px "Playfair Display",serif;margin:8px 0}
+.agebox{text-align:center}
+.modal p,.agebox p{color:var(--muted);line-height:1.7}
+.modalhead{display:flex;justify-content:space-between}
+.close{background:none;border:0;color:white;font-size:25px}
+.toast{display:none;position:fixed;top:82px;right:15px;z-index:30;background:#25100f;border:1px solid var(--gold);padding:14px}
+.toast.show{display:block}
+.notice{font-size:11px;color:var(--muted);line-height:1.6}
+@media(max-width:850px){
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nav{gap:12px;flex-wrap:wrap;padding:10px 0}
+nav{order:3;width:100%;gap:15px}
+.hero:after{left:50%;width:190px;height:200px}
+.stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:540px){
+.grid{gap:8px}
+.art{height:165px}
+.details{padding:9px}
+.details h3{font-size:18px}
+.foot{align-items:start;flex-direction:column}
+.two{grid-template-columns:1fr}
+.seats{grid-template-columns:repeat(6,1fr)}
+.hero{min-height:510px}
+.heading{align-items:start;flex-direction:column}
+.heading h2{font-size:30px}
+.right .btn:first-child{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="agegate" id="agegate">
+  <div class="agebox">
+    <div class="logo">Xensored<span>.</span></div>
+    <div class="eyebrow">21+ · Art uncensored</div>
+    <h2>Desire, <em style="color:var(--red)">framed.</em></h2>
+    <p>This adult-oriented creative marketplace is intended for adults 21+ or the legal age of majority where you live if higher. Explicit pornography and illegal content are not permitted.</p>
+    <div class="actions" style="justify-content:center">
+      <button class="btn red" id="enter">I am 21+ — Enter</button>
+      <button class="btn" id="exit">Exit</button>
+    </div>
+    <p class="notice">This demo gate is not legal age verification.</p>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#home">Xensored<span>.</span></a>
+    <nav>
+      <a href="#explore">Explore</a>
+      <a href="#bid">Bid Hall</a>
+      <a href="#artist">Artist</a>
+      <a href="#studio">Studio</a>
+      <a href="#how">How it pays</a>
+    </nav>
+    <div class="right">
+      <button class="btn" id="savedBtn">Saved <span id="savedN">0</span></button>
+      <button class="btn red" id="bagBtn">Bag <span id="bagN">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="eyebrow">21+ · Art uncensored</div>
+    <h1>Desire, <em>framed.</em></h1>
+    <p>A considered space to sell, bid on, and collect sensual art — painting, ink, music, film, and the written word. Made for independent artists and the people who value their work.</p>
+    <div class="actions">
+      <a class="btn red" href="#bid">Enter the Bid Hall</a>
+      <a class="btn gold" href="#studio">I'm an artist</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="explore">
+  <div class="wrap">
+    <div class="heading">
+      <div><div class="eyebrow">The collection</div><h2>Discover the uncensored.</h2></div>
+      <input class="search" id="search" placeholder="Search art, artists, music…">
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="products"></div>
+    <p id="empty" class="muted hidden">No listings match your search.</p>
+  </div>
+</section>
+
+<section class="section" id="bid">
+  <div class="wrap">
+    <div class="heading">
+      <div><div class="eyebrow">Room 07 · Open bid</div><h2>Live Bid Hall</h2></div>
+      <span class="muted">Demo auction · sample values</span>
+    </div>
+    <div class="room">
+      <div class="eyebrow">Featured lot · Noir Amara</div>
+      <h2>“Velvet Hour”</h2>
+      <p class="muted">Original mixed-media work · Starting bid $1,200</p>
+      <div class="seats" id="seats"></div>
+      <p class="notice">Choose an open seat to join the sample room. Reserved seats are marked with stars.</p>
+      <div class="actions" style="justify-content:center">
+        <button class="btn gold" id="join">Pick a seat</button>
+        <button class="btn red" id="bidBtn">Place demo bid</button>
+      </div>
+      <p id="bidStatus" class="notice">Current demo bid: $1,200. This is not a real auction.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="artist">
+  <div class="wrap">
+    <div class="eyebrow">Featured creator</div>
+    <div class="two" style="align-items:center">
+      <div class="panel">
+        <div class="eyebrow">Painter · Musician · Teacher</div>
+        <h3 style="font-size:36px">Noir Amara</h3>
+        <p>Oil on linen, slow jazz, and the space between. Commissions open.</p>
+        <div class="actions">
+          <button class="btn red" id="follow">Follow</button>
+          <button class="btn gold" data-modal="Tip Noir Amara">Tip</button>
+          <button class="btn" data-modal="Commission Noir Amara">Commission</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Artist portfolio</h3>
+        <p>Works, tracks, films, studio notes, and classes in one creator profile.</p>
+        <div class="tabs" id="artistTabs">
+          <button class="tab active" data-tab="Works">Works</button>
+          <button class="tab" data-tab="Tracks">Tracks</button>
+          <button class="tab" data-tab="Films">Films</button>
+          <button class="tab" data-tab="Blog">Blog</button>
+          <button class="tab" data-tab="Classes">Classes</button>
+        </div>
+        <p id="artistContent">Featured work: Velvet Hour — mixed media · $1,200.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="studio">
+  <div class="wrap">
+    <div class="eyebrow">Seller studio</div>
+    <h2 style="font:45px 'Playfair Display',serif;margin:8px 0">Good evening, Creator.</h2>
+    <div class="tabs" id="studioTabs">
+      <button class="tab active" data-studio="Overview">Overview</button>
+      <button class="tab" data-studio="Create listing">Create listing</button>
+      <button class="tab" data-studio="Audience">Audience</button>
+      <button class="tab" data-studio="School">School</button>
+      <button class="tab" data-studio="Network">Network</button>
+    </div>
+
+    <div id="overview">
+      <div class="stats">
+        <div class="stat"><small>Earnings (30d) · demo</small><strong>$8,420</strong></div>
+        <div class="stat"><small>Tips · demo</small><strong>$612</strong></div>
+        <div class="stat"><small>Profile views · demo</small><strong>3,904</strong></div>
+        <div class="stat"><small>Next payout</small><strong>Not connected</strong></div>
+      </div>
+      <div class="panel">
+        <h3>Publish your next work</h3>
+        <p>List originals, limited editions, tracks, films, books, and digital work.</p>
+        <button class="btn red" id="newListing">Create a listing</button>
+      </div>
+    </div>
+
+    <form id="listingForm" class="panel hidden">
+      <h3>Create a listing</h3>
+      <p>Saved to this page session only, not to a server.</p>
+      <div class="row">
+        <input class="field" name="title" placeholder="Work title" required>
+        <input class="field" name="artist" placeholder="Artist name" required>
+      </div>
+      <div class="row">
+        <select class="field" name="category">
+          <option>Painting</option><option>Photography</option><option>Sculpture</option>
+          <option>Tattoo</option><option>Music</option><option>Short Film</option>
+          <option>Books</option><option>Digital</option>
+        </select>
+        <input class="field" name="price" type="number" min="1" placeholder="Price in USD" required>
+      </div>
+      <textarea class="field" name="description" placeholder="Description" rows="3" style="max-width:100%"></textarea>
+      <div class="actions">
+        <button class="btn red">Publish demo listing</button>
+        <button class="btn" type="button" id="cancelListing">Cancel</button>
+      </div>
+    </form>
+
+    <div id="studioInfo" class="panel hidden">
+      <h3 id="infoTitle"></h3>
+      <p id="infoText"></p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="heading"><div><div class="eyebrow">Artist economy</div><h2>How it pays.</h2></div></div>
+    <div class="two">
+      <div class="panel">
+        <h3>For artists</h3>
+        <p>Showcase original work, accept commissions, receive tips, and build a portfolio. Payouts require verified seller onboarding and a payment provider.</p>
+      </div>
+      <div class="panel">
+        <h3>For collectors</h3>
+        <p>Discover creators, save works, join demo auctions, and explore music, film, books, and classes. Checkout in this version is simulated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="wrap">
+    <div class="heading"><div><div class="eyebrow">Community</div><h2>Creators in conversation.</h2></div></div>
+    <div class="two">
+      <div class="panel">
+        <h3>Community messages</h3>
+        <div class="chat" id="chat">
+          <div class="msg"><b>Studio note:</b> Welcome to the Xensored community demo.</div>
+          <div class="msg"><b>Moderator:</b> Keep conversations respectful and follow community standards.</div>
+        </div>
+        <form id="chatForm" class="row">
+          <input class="field" id="chatInput" placeholder="Write a message…" required style="flex:1">
+          <button class="btn red">Send</button>
+        </form>
+        <p class="notice">Messages stay in this browser page.</p>
+      </div>
+      <div class="panel">
+        <h3>Classes & artist networking</h3>
+        <p>Creative business, pricing, portfolio building, production, and audience development.</p>
+        <div class="msg"><b>Workshop:</b> Pricing your creative work</div>
+        <div class="msg"><b>Studio session:</b> Portfolio and artist statement</div>
+        <button class="btn gold" data-modal="Classes & Networking">Explore classes</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow">Presented by For The Lo LLC</div>
+    <h2 style="font:38px 'Playfair Display',serif">Art. Production. Management.</h2>
+    <p class="muted" style="max-width:700px;line-height:1.8">Xensored is a creative marketplace concept from For The Lo LLC, connecting independent artists and collectors through art direction, digital strategy, creator services, music, film, education, and community.</p>
+    <div class="actions">
+      <a class="btn gold" href="https://fortheloworld.wordpress.com" target="_blank" rel="noopener">For The Lo website</a>
+      <a class="btn" href="https://www.instagram.com/forthelo.world/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo">Xensored<span>.</span></div>
+    <p>By For The Lo LLC · 21+ · Art, not porn.</p>
+    <p class="notice">Prototype only: sample earnings and interactions are illustrative. Real accounts, payment processing, age verification, moderation, messaging, and live bidding require secure backend services.</p>
+  </div>
+</footer>
+
+<div class="player">
+  <div class="wrap">
+    <button class="btn red" id="play">▶</button>
+    <span id="track">Now: Jazz lounge · demo player</span>
+    <select id="music"><option>Jazz</option><option>Ambient</option><option>Neo-soul</option><option>Classical</option></select>
+  </div>
+</div>
+
+<div class="modalbg" id="modal">
+  <div class="modal">
+    <div class="modalhead"><h2 id="modalTitle">Your bag</h2><button class="close" id="close">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const data=[
+[1,"Velvet Hour","Noir Amara","Painting",1200,true,"v1"],
+[2,"Skin & Ink","Dre Sable","Tattoo",350,false,"v2"],
+[3,"Midnight Sax (EP)","Lux Ellington","Music",9,false,"v3"],
+[4,"Silhouette No. 4","Mira Oyelaran","Photography",640,true,"v4"],
+[5,"Bronze Study","Nia Vale","Sculpture",875,false,"v3"],
+[6,"After the Last Train","K. Rivers","Short Film",14,false,"v2"],
+[7,"Soft Ruins","Ari Sunday","Books",28,true,"v4"],
+[8,"Red Frequency","Noir Amara","Digital",45,false,"v1"]
+];
+
+let category="All",saved=new Set(),bag=[],extra=[],seat=null,bid=1200,followed=false;
+const $=s=>document.querySelector(s);
+const money=n=>"$"+Number(n).toLocaleString("en-US");
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function toast(t){
+  $("#toast").textContent=t;
+  $("#toast").classList.add("show");
+  setTimeout(()=>$("#toast").classList.remove("show"),2500);
+}
+function all(){
+  return [...extra,...data.map(x=>({id:x[0],title:x[1],artist:x[2],category:x[3],price:x[4],live:x[5],variant:x[6]}))];
+}
+function card(p){
+  return `<article class="card">
+    <div class="art ${p.variant||"v1"}">${p.live?'<span class="live">● LIVE BID</span>':""}<span>${esc(p.category)}</span></div>
+    <div class="details">
+      <h3>${esc(p.title)}</h3><p>${esc(p.artist)}</p>
+      <div class="foot"><span class="price">${money(p.price)}</span>
+        <div>
+          <button data-act="tip" data-title="${esc(p.artist)}">Tip</button>
+          <button class="${p.live?"buy":""}" data-act="${p.live?"bid":"buy"}" data-id="${p.id}">${p.live?"Bid":"Buy"}</button>
+          <button data-act="save" data-id="${p.id}">${saved.has(p.id)?"♥":"♡"}</button>
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+function render(){
+  let term=$("#search").value.toLowerCase();
+  let list=all().filter(p=>(category==="All"||p.category===category)&&[p.title,p.artist,p.category].join(" ").toLowerCase().includes(term));
+  $("#products").innerHTML=list.map(card).join("");
+  $("#empty").classList.toggle("hidden",!!list.length);
+  $("#bagN").textContent=bag.length;
+  $("#savedN").textContent=saved.size;
+}
+
+const cats=["All","Painting","Photography","Sculpture","Tattoo","Music","Short Film","Books","Digital"];
+$("#filters").innerHTML=cats.map(c=>`<button class="filter ${c==="All"?"active":""}" data-cat="${c}">${c}</button>`).join("");
+render();
+
+$("#filters").onclick=e=>{
+  let b=e.target.closest("[data-cat]");
+  if(!b)return;
+  category=b.dataset.cat;
+  document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));
+  render();
+};
+$("#search").oninput=render;
+
+function modal(title,html){
+  $("#modalTitle").textContent=title;
+  $("#modalBody").innerHTML=html;
+  $("#modal").classList.add("open");
+}
+$("#close").onclick=()=>$("#modal").classList.remove("open");
+$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("open")};
+
+function showBag(){
+  modal("Your bag",bag.length
+    ?bag.map((p,i)=>`<div class="msg">${esc(p.title)} — <b>${money(p.price)}</b> <button class="btn" data-remove="${i}">Remove</button></div>`).join("")
+      +`<p class="price">Demo total: ${money(bag.reduce((s,p)=>s+p.price,0))}</p><p class="notice">No payment is collected.</p><button class="btn red" id="checkout">Continue to demo checkout</button>`
+    :"<p>Your bag is empty. Explore the collection to find a work you love.</p>");
+}
+$("#bagBtn").onclick=showBag;
+$("#savedBtn").onclick=()=>{
+  let s=all().filter(p=>saved.has(p.id));
+  modal("Saved works",s.length?s.map(p=>`<div class="msg">${esc(p.title)} — <b>${money(p.price)}</b></div>`).join(""):"<p>No saved works yet. Tap a heart on a listing to save it.</p>");
+};
+
+document.body.addEventListener("click",e=>{
+  let b=e.target.closest("[data-act]");
+  if(!b)return;
+  let p=all().find(x=>x.id===Number(b.dataset.id));
+  if(b.dataset.act==="save"){
+    if(saved.has(p.id))saved.delete(p.id);else saved.add(p.id);
+    render();
+  }
+  if(b.dataset.act==="buy"){
+    bag.push(p);render();toast(p.title+" added to bag");
+  }
+  if(b.dataset.act==="bid"){
+    document.querySelector("#bid").scrollIntoView({behavior:"smooth"});
+    toast("Enter the demo Bid Hall to place a sample bid");
+  }
+  if(b.dataset.act==="tip"){
+    modal("Send a tip",`<p>Support ${esc(b.dataset.title)}.</p><input class="field" id="request" placeholder="Tip amount (USD)"><p class="notice">Demo only. No payment is sent.</p><button class="btn red" id="requestSend">Submit demo request</button>`);
+  }
+});
+
+$("#modalBody").onclick=e=>{
+  if(e.target.dataset.remove!==undefined){
+    bag.splice(Number(e.target.dataset.remove),1);render();showBag();
+  }
+  if(e.target.id==="checkout"){
+    modal("Demo checkout","<p>Checkout is ready for secure payment integration.</p><p class='notice'>This prototype does not process payments or collect card details.</p><button class='btn gold' id='finish'>Finish demo</button>");
+  }
+  if(e.target.id==="finish"){
+    bag=[];render();$("#modal").classList.remove("open");toast("Demo finished. No payment was made.");
+  }
+  if(e.target.id==="requestSend"){
+    $("#modal").classList.remove("open");toast("Demo request submitted locally.");
+  }
+};
+
+$("#enter").onclick=()=>{
+  sessionStorage.setItem("xensoredAdult","1");
+  $("#agegate").classList.add("hidden");
+};
+$("#exit").onclick=()=>{
+  document.body.innerHTML="<main style='padding:15vh 20px;text-align:center'><h1>Thank you for visiting.</h1></main>";
+};
+if(sessionStorage.getItem("xensoredAdult")==="1")$("#agegate").classList.add("hidden");
+
+$("#seats").innerHTML=Array.from({length:60},(_,i)=>`<button class="seat ${i<10?"taken":""}" ${i<10?"disabled":`data-seat="${i}"`}>${i<10?"★":""}</button>`).join("");
+$("#seats").onclick=e=>{
+  let b=e.target.closest("[data-seat]");
+  if(!b)return;
+  seat=+b.dataset.seat;
+  document.querySelectorAll(".seat").forEach(x=>x.classList.toggle("sel",x===b));
+  $("#bidStatus").textContent=`Seat ${seat+1} selected. Current sample bid: ${money(bid)}.`;
+};
+$("#join").onclick=()=>seat===null?toast("Select an available seat first."):toast("Joined demo seat "+(seat+1));
+$("#bidBtn").onclick=()=>{
+  if(seat===null)return toast("Select a seat before bidding.");
+  bid+=50;
+  $("#bidStatus").textContent=`Your demo bid: ${money(bid)}. No real auction is active.`;
+  toast("Demo bid updated: "+money(bid));
+};
+
+$("#follow").onclick=()=>{
+  followed=!followed;
+  $("#follow").textContent=followed?"Following ✓":"Follow";
+  toast(followed?"Following Noir Amara in this demo.":"Unfollowed creator.");
+};
+
+$("#artistTabs").onclick=e=>{
+  let b=e.target.closest("[data-tab]");
+  if(!b)return;
+  document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));
+  let t=b.dataset.tab;
+  $("#artistContent").textContent=({
+    Works:"Featured work: Velvet Hour — mixed media · $1,200.",
+    Tracks:"Tracks: Midnight Sax (EP) — sample digital release.",
+    Films:"Films: After the Last Train — sample independent short film.",
+    Blog:"Studio journal: notes on process, practice, and creative work.",
+    Classes:"Classes: creative business, portfolio building, and artist development."
+  })[t];
+};
+
+function studioTab(t){
+  document.querySelectorAll("[data-studio]").forEach(x=>x.classList.toggle("active",x.dataset.studio===t));
+  $("#overview").classList.toggle("hidden",t!=="Overview");
+  $("#listingForm").classList.toggle("hidden",t!=="Create listing");
+  $("#studioInfo").classList.toggle("hidden",["Overview","Create listing"].includes(t));
+  if(!["Overview","Create listing"].includes(t)){
+    $("#infoTitle").textContent=t;
+    $("#infoText").textContent=({
+      Audience:"Audience insights appear when analytics are connected.",
+      School:"Manage classes and workshops here.",
+      Network:"Creator collaborations and messages will appear here."
+    })[t];
+  }
+}
+$("#studioTabs").onclick=e=>{
+  let b=e.target.closest("[data-studio]");
+  if(b)studioTab(b.dataset.studio);
+};
+$("#newListing").onclick=()=>studioTab("Create listing");
+$("#cancelListing").onclick=()=>studioTab("Overview");
+
+$("#listingForm").onsubmit=e=>{
+  e.preventDefault();
+  let f=new FormData(e.target);
+  extra.unshift({
+    id:Date.now(),
+    title:f.get("title"),
+    artist:f.get("artist"),
+    category:f.get("category"),
+    price:+f.get("price"),
+    variant:"v"+(Math.floor(Math.random()*4)+1)
+  });
+  e.target.reset();
+  render();
+  studioTab("Overview");
+  toast("Demo listing published in this browser session.");
+  document.querySelector("#explore").scrollIntoView({behavior:"smooth"});
+};
+
+$("#chatForm").onsubmit=e=>{
+  e.preventDefault();
+  let v=$("#chatInput").value.trim();
+  if(!v)return;
+  let d=document.createElement("div");
+  d.className="msg";
+  let b=document.createElement("b");
+  b.textContent="You: ";
+  d.append(b,document.createTextNode(v));
+  $("#chat").append(d);
+  $("#chatInput").value="";
+};
+
+document.body.addEventListener("click",e=>{
+  let b=e.target.closest("[data-modal]");
+  if(b)modal(b.dataset.modal,`<p>This is a sample ${esc(b.dataset.modal.toLowerCase())} interaction.</p><input class="field" id="request" placeholder="Your message or request"><p class="notice">No message or payment will be sent to a server.</p><button class="btn red" id="requestSend">Submit demo request</button>`);
+});
+
+$("#play").onclick=()=>{
+  let playing=$("#play").textContent==="▶";
+  $("#play").textContent=playing?"Ⅱ":"▶";
+  $("#track").textContent=playing?"Now playing: "+$("#music").value+" lounge · visual demo":"Now: Jazz lounge · demo player";
+  toast("Visual demo player toggled. No audio stream is connected.");
+};
+$("#music").onchange=()=>$("#track").textContent="Selected: "+$("#music").value+" lounge · demo player";
+</script>
+</body>
+</html>
